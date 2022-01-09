@@ -1,0 +1,9 @@
+node_modules
+dist
+build
+docs
+notes
+logs
+uploads
+config
+coverage
