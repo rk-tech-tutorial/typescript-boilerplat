@@ -55,7 +55,7 @@ const save = function (this: any) {
 
 // On update
 const update = async function (this: any) {
-  let user: any = this.getUpdate();
+  const user: any = this.getUpdate();
   return await modifyOrCreateOperations(user);
 };
 const findOne = (doc: any) => {

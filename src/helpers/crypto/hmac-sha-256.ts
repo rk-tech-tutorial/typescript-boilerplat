@@ -1,7 +1,7 @@
 import crypto from "crypto";
-const algorithm = "sha256";
 
 import { configs } from "@configs";
+const algorithm = "sha256";
 const secret: any = configs.crypto["hmac-sha-256-secret"];
 
 // Create hash of the string
