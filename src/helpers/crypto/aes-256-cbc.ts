@@ -1,7 +1,7 @@
 import crypto from "crypto";
-const algorithm = "aes-256-cbc";
 
 import { configs } from "@configs";
+const algorithm = "aes-256-cbc";
 const key: any = configs.crypto["aes-256-cbc-key"];
 
 // Encrypt a string

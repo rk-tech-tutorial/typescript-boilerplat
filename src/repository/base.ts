@@ -46,7 +46,7 @@ export default class BaseService<T> {
     return resource;
   };
 
-  delete =  async (id: string): Promise<T> => {
-    return await this.model.remove({ _id: mongoose.Types.ObjectId(id) }) as unknown as T;
+  delete = async (id: string): Promise<T> => {
+    return (await this.model.remove({ _id: mongoose.Types.ObjectId(id) })) as unknown as T;
   };
 }
