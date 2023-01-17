@@ -13,49 +13,53 @@ import { passportConfigure } from "@helpers/auth/jwtValidator";
 // package.json
 const packageJson = require("../package.json");
 
-const app = express();
+class App {
+  private app: express.Application;
 
-// Helmet Setup
-app.use(helmet());
+  constructor() {
+    this.app = express();
 
-// CORS Setup
-// if (!inProduction()) {
-app.use(cors());
-// }
+    this.globalMiddelwares();
+    this.initErrorHandling();
+    connectDatabase();
+    this.initRoutes();
+    this.startServer();
+  }
 
-// Port setup
-app.set("port", process.env.PORT || 8000);
+  private globalMiddelwares() {
+    this.app.use(helmet());
+    this.app.use(cors());
+    this.app.use(express.json());
+    this.app.use(bodyParser.json({ limit: "10mb" }));
+    this.app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
+    this.app.use(compression());
+    this.app.use(morgan("combined"));
 
-// Body Parser
-// FIXME: Make limit to 5mb
-app.use(express.json());
-app.use(bodyParser.json({ limit: "10mb" }));
-app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
+    this.app.use(passport.initialize());
+    passportConfigure(passport);
+  }
 
-// Compression - gzip
-app.use(compression());
+  private initRoutes() {
+    this.app.use("/api/v1", router);
+    this.app.get("/", (_req, res) => {
+      res.send({
+        name: packageJson.name,
+        version: packageJson.version
+      });
+    });
+  }
 
-// Logger
-app.use(morgan("combined"));
+  private initErrorHandling() {
+    this.app.use(errorHandler);
+  }
 
-// Passport Setup
-app.use(passport.initialize());
-passportConfigure(passport);
+  private startServer() {
+    this.app.set("port", process.env.PORT || 8000);
 
-// Connect Database: MONGO
-connectDatabase();
+    this.app.listen(this.app.get("port"), () => {
+      console.info(`API Server running at http://localhost:${this.app.get("port")} (${process.env.NODE_ENV})`);
+    });
+  }
+}
 
-app.get("/", (_req, res) => {
-  res.send({
-    name: packageJson.name,
-    version: packageJson.version
-  });
-});
-
-// Routes
-app.use("/api/v1", router);
-
-// app.use(errors());
-app.use(errorHandler); // custom error handler
-
-export { app };
+export const app = new App();

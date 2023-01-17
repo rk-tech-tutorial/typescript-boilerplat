@@ -7,10 +7,10 @@
     "build:staging": "NODE_ENV=staging node build/index.js",
     "build:prod": "tsc",
     "start": "NODE_ENV=production node build/index.js",
-    "dev": "NODE_ENV=development nodemon src/index.ts",
+    "dev": "NODE_ENV=development nodemon --config src/config/nodemon.json src/index.ts",
     "format": "pretty-quick --staged"
   },
-  "author": "",
+  "author": "Rakesh Kumar",
   "license": "ISC",
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
