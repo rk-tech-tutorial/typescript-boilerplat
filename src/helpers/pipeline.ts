@@ -11,8 +11,6 @@ let MATCH_INDEX: number;
  */
 
 //  Do with Interface and improve the code
-
-const mongoPipeline2 = {};
 export const mongoPipeline = (
   { projection = {}, filters = [], sort = [], perPage = undefined, pageNumber = undefined },
   pagination: Boolean = true
