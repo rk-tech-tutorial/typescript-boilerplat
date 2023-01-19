@@ -4,11 +4,15 @@ import compression from "compression";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
+import "reflect-metadata";
 import passport from "passport";
 import { connectDatabase } from "@configs";
-import { router } from "./routes";
-import { errorHandler } from "@middlewares/errorHandler";
+import controllers from "./controllers";
 import { passportConfigure } from "@helpers/auth/jwtValidator";
+
+import { useExpressServer } from "routing-controllers";
+import { middlewares } from "./middlewares";
+import { changeResponse } from "./interceptor";
 
 // package.json
 const packageJson = require("../package.json");
@@ -20,7 +24,6 @@ class App {
     this.app = express();
 
     this.globalMiddelwares();
-    this.initErrorHandling();
     connectDatabase();
     this.initRoutes();
     this.startServer();
@@ -40,17 +43,12 @@ class App {
   }
 
   private initRoutes() {
-    this.app.use("/api/v1", router);
-    this.app.get("/", (_req, res) => {
-      res.send({
-        name: packageJson.name,
-        version: packageJson.version
-      });
+    useExpressServer(this.app, {
+      defaultErrorHandler: false,
+      middlewares,
+      interceptors: [changeResponse],
+      controllers
     });
-  }
-
-  private initErrorHandling() {
-    this.app.use(errorHandler);
   }
 
   private startServer() {

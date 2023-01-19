@@ -1,4 +1,4 @@
-import UserController from "@controllers/user";
+import UserController from "@controllers/userAuth/authController";
 import { asyncMiddleware } from "@middlewares/asyncMiddleware";
 import { instructorAuth, studentAuth, userAuth } from "@middlewares/auth";
 import { validator } from "@middlewares/validator";

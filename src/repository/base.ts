@@ -1,5 +1,9 @@
 import { mongoose } from "@configs";
 
+interface IProjection {
+  [key: string]: 1 | 0;
+}
+
 export default class BaseService<T> {
   model: mongoose.Model<any>;
   constructor(model: mongoose.Model<any>) {
@@ -21,27 +25,27 @@ export default class BaseService<T> {
     return resource;
   };
 
-  get = async (filters = {}, projection: object): Promise<T[]> => {
+  get = async (filters = {}, projection: IProjection): Promise<T[]> => {
     const resource = (await this.model.find(filters, projection)) as T[];
     return resource;
   };
 
-  aggregate = async (pipeline: object[]): Promise<T[]> => {
+  aggregate = async (pipeline: IProjection[]): Promise<T[]> => {
     const resource = (await this.model.aggregate(pipeline)) as T[];
     return resource;
   };
 
-  getById = async (id: string, projection: object): Promise<T> => {
+  getById = async (id: string, projection: IProjection): Promise<T> => {
     const resource = (await this.model.findOne({ _id: mongoose.Types.ObjectId(id) }, projection)) as T;
     return resource;
   };
 
-  getOne = async (filters: object = {}, projection: object): Promise<T> => {
+  getOne = async (filters: object = {}, projection: IProjection): Promise<T> => {
     const resource = (await this.model.findOne(filters, projection)) as T;
     return resource;
   };
 
-  updateOne = async (filters: object = {}, payload: object): Promise<T> => {
+  updateOne = async (filters: object = {}, payload: IProjection): Promise<T> => {
     const resource = (await this.model.updateOne(filters, payload)) as unknown as T;
     return resource;
   };

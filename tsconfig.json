@@ -10,6 +10,7 @@
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */,
     "preserveConstEnums": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "outDir": "./build",
     "paths": {
       "@controllers/*": ["./src/controllers/*"],
@@ -26,6 +27,6 @@
       "@projection": ["./src/projection/index"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/helpers/paytm/*.js"],
-  "exclude": ["*.d.ts", "node_modules", "build", "config", "logs", "notes", "uploads", "locales"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/helpers/paytm/*.js", "./**/*.json"],
+  "exclude": ["*.d.ts", "node_modules", "build", "systemConfig", "logs", "notes", "uploads", "locales"]
 }
