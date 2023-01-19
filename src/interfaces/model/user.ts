@@ -1,11 +1,11 @@
 import { mongoose } from "@configs";
 
 export interface UserI {
-  userType: string;
-  name: string;
-  email: string;
-  password?: string;
-  subjects?: string[];
+  userType: String;
+  name: String;
+  email: String;
+  password?: String;
+  subjects?: String[];
 }
 
 export default interface UserSI extends UserI, mongoose.Document {
